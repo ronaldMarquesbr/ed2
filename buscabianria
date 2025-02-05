@@ -1,0 +1,29 @@
+
+#include <stdio.h>
+
+typedef struct carv{
+    int chave;
+    int valor;
+    struct carv *esq, *dir;
+    int value;
+} Arv;
+
+
+int buscarArvore(Arv * arvore, int key){
+    if(arvore == NULL || arvore->chave == key){
+        return arvore;
+    }
+    if(arvore->chave < key){
+    return buscarArvore(arvore->esq, key);
+    }
+    if(arvore-chave > key){
+    return buscarArvore(arvore->dir, key);
+    }
+}
+
+int main()
+{
+    printf("Hello World");
+
+    return 0;
+}
