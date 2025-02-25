@@ -47,6 +47,34 @@ arv* inserir_valor(arv * arvore, arv * nova_arvore){
     return arvore;
 }
 
+arv* remover_valor(arv * arvore) {
+    arv * pai, * filho;
+
+    if (arvore->arve == NULL) {
+        filho = arvore->arvd;
+        free(arvore);
+        return filho;
+    }
+
+    pai = arvore;
+    filho = arvore->arve;
+
+    while (filho->arvd != NULL) {
+        pai = filho;
+        filho = filho->arvd;
+    }
+
+    if (pai != arvore) {
+        pai->arvd = filho->arve;
+        filho->arve = arvore->arve;
+    }
+
+    filho->arvd = arvore->arvd;
+    free(arvore);
+
+    return filho;
+}
+
 int main()
 {
     arv* tree = cria_arv(
