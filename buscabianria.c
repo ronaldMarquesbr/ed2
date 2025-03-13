@@ -7,6 +7,10 @@ typedef struct Arv{
     struct Arv * arve;
 } arv;
 
+typedef struct info_balanceamento {
+    int eh_balanceada;
+    arv * arvore;
+} InfoBalanceamento;
 
 arv* cria_arv_vazia() {
     return NULL;
@@ -73,6 +77,70 @@ arv* remover_valor(arv * arvore) {
     free(arvore);
 
     return filho;
+}
+
+
+int obter_altura_arvore(arv * arvore) {
+    int altura_arvore_esquerda;
+    int altura_arvore_direita;
+
+    if (arvore->arve == NULL) {
+        altura_arvore_esquerda = 0;
+    } else {
+        altura_arvore_esquerda = obter_altura_arvore(arvore->arve) + 1;
+    }
+
+    if (arvore->arvd == NULL) {
+        altura_arvore_direita = 0;
+    } else {
+        altura_arvore_direita = obter_altura_arvore(arvore->arvd) + 1;
+    }
+
+    if (altura_arvore_direita > altura_arvore_esquerda)
+        return altura_arvore_direita;
+    else
+        return altura_arvore_esquerda;
+}
+
+InfoBalanceamento * verificar_balanceamento_proc(arv * arvore) {
+    InfoBalanceamento * meu_balanceamento = (InfoBalanceamento*)malloc(sizeof(InfoBalanceamento));
+    InfoBalanceamento * balanceamento_esquerda, * balanceamento_direita;
+    int altura_esquerda = 0, altura_direita = 0;
+    int balanco;
+
+    meu_balanceamento->arvore = arvore;
+
+    if (arvore->arve != NULL)
+        altura_esquerda = obter_altura_arvore(arvore->arve) + 1;
+
+    if (arvore->arvd != NULL)
+        altura_direita = obter_altura_arvore(arvore->arvd) + 1;
+
+    balanco = abs(altura_esquerda - altura_direita);
+
+    if (balanco > 1) {
+        meu_balanceamento->eh_balanceada = 0;
+
+        return meu_balanceamento;
+    }
+
+    if (arvore->arve != NULL ) {
+        balanceamento_esquerda = verificar_balanceamento_proc(arvore->arve);
+
+        if (balanceamento_esquerda->eh_balanceada == 0)
+            return balanceamento_esquerda;
+    }
+
+    if (arvore->arvd != NULL ) {
+        balanceamento_direita = verificar_balanceamento_proc(arvore->arvd);
+
+        if (balanceamento_direita->eh_balanceada == 0)
+            return balanceamento_direita;
+    }
+
+    meu_balanceamento->eh_balanceada = 1;
+
+    return meu_balanceamento;
 }
 
 int main()
