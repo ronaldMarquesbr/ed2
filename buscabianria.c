@@ -101,64 +101,25 @@ arv * check_for_balance(arv * arvore)
         return NULL;
     }
 
-    int left,right = 0;
-
-    if (arvore->arve != NULL)
-    {
-
-    }
-
+    int left = 0;
+    int right = 0;
 
     left = obter_altura_arvore(arvore->arve);
     right = obter_altura_arvore(arvore->arvd);
 
-    if (abs(left-right)>1)
+    if (abs(left-right) > 1)
     {
-
+        return arvore;
+    }
+    arv * lef_tree = check_for_balance(arvore->arve);
+    if (lef_tree != NULL)
+    {
+        return lef_tree;
+    }else
+    {
+        return check_for_balance(arvore->arvd);
     }
 
-
-}
-
-infoBalanceamento * verificar_balanceamento_proc(arv * arvore) {
-    infoBalanceamento * meu_balanceamento = (infoBalanceamento*)malloc(sizeof(infoBalanceamento));
-    infoBalanceamento * balanceamento_esquerda, * balanceamento_direita;
-    int altura_esquerda = 0, altura_direita = 0;
-    int balanco;
-
-    meu_balanceamento->arvore = arvore;
-
-    if (arvore->arve != NULL)
-        altura_esquerda = obter_altura_arvore(arvore->arve) + 1;
-
-    if (arvore->arvd != NULL)
-        altura_direita = obter_altura_arvore(arvore->arvd) + 1;
-
-    balanco = abs(altura_esquerda - altura_direita);
-
-    if (balanco > 1) {
-        meu_balanceamento->eh_balanceada = 0;
-
-        return meu_balanceamento;
-    }
-
-    if (arvore->arve != NULL ) {
-        balanceamento_esquerda = verificar_balanceamento_proc(arvore->arve);
-
-        if (balanceamento_esquerda->eh_balanceada == 0)
-            return balanceamento_esquerda;
-    }
-
-    if (arvore->arvd != NULL ) {
-        balanceamento_direita = verificar_balanceamento_proc(arvore->arvd);
-
-        if (balanceamento_direita->eh_balanceada == 0)
-            return balanceamento_direita;
-    }
-
-    meu_balanceamento->eh_balanceada = 1;
-
-    return meu_balanceamento;
 }
 
 int main()
@@ -173,12 +134,20 @@ int main()
                             7,
                             7,
                             NULL,
-                            NULL),
+                            cria_arv(
+                           1,
+                           1,
+                           NULL,
+                           NULL)),
                     NULL),
             cria_arv(
                     3,
                     3,
-                    NULL,
+                    cria_arv(
+                           1,
+                           1,
+                           NULL,
+                           NULL),
                     cria_arv(
                             2,
                             2,
@@ -191,7 +160,7 @@ int main()
     );
 
 
-    int altura = obter_altura_arvore(tree);
-    printf("Altura: %d\n", altura);
+    arv * arvore_desbalanceada = check_for_balance(tree);
+    printf("valor: %d\n", arvore_desbalanceada->valor);
 
 }
