@@ -7,10 +7,10 @@ typedef struct Arv{
     struct Arv * arve;
 } arv;
 
-typedef struct info_balanceamento {
+typedef struct Info_balanceamento {
     int eh_balanceada;
     arv * arvore;
-} InfoBalanceamento;
+} infoBalanceamento;
 
 arv* cria_arv_vazia() {
     return NULL;
@@ -81,20 +81,12 @@ arv* remover_valor(arv * arvore) {
 
 
 int obter_altura_arvore(arv * arvore) {
-    int altura_arvore_esquerda;
-    int altura_arvore_direita;
-
-    if (arvore->arve == NULL) {
-        altura_arvore_esquerda = 0;
-    } else {
-        altura_arvore_esquerda = obter_altura_arvore(arvore->arve) + 1;
+    if (arvore == NULL)
+    {
+        return 0;
     }
-
-    if (arvore->arvd == NULL) {
-        altura_arvore_direita = 0;
-    } else {
-        altura_arvore_direita = obter_altura_arvore(arvore->arvd) + 1;
-    }
+        int altura_arvore_esquerda = obter_altura_arvore(arvore->arve) + 1;
+        int altura_arvore_direita = obter_altura_arvore(arvore->arvd) + 1;
 
     if (altura_arvore_direita > altura_arvore_esquerda)
         return altura_arvore_direita;
@@ -102,9 +94,35 @@ int obter_altura_arvore(arv * arvore) {
         return altura_arvore_esquerda;
 }
 
-InfoBalanceamento * verificar_balanceamento_proc(arv * arvore) {
-    InfoBalanceamento * meu_balanceamento = (InfoBalanceamento*)malloc(sizeof(InfoBalanceamento));
-    InfoBalanceamento * balanceamento_esquerda, * balanceamento_direita;
+arv * check_for_balance(arv * arvore)
+{
+    if (arvore == NULL)
+    {
+        return NULL;
+    }
+
+    int left,right = 0;
+
+    if (arvore->arve != NULL)
+    {
+
+    }
+
+
+    left = obter_altura_arvore(arvore->arve);
+    right = obter_altura_arvore(arvore->arvd);
+
+    if (abs(left-right)>1)
+    {
+
+    }
+
+
+}
+
+infoBalanceamento * verificar_balanceamento_proc(arv * arvore) {
+    infoBalanceamento * meu_balanceamento = (infoBalanceamento*)malloc(sizeof(infoBalanceamento));
+    infoBalanceamento * balanceamento_esquerda, * balanceamento_direita;
     int altura_esquerda = 0, altura_direita = 0;
     int balanco;
 
@@ -165,6 +183,15 @@ int main()
                             2,
                             2,
                             NULL,
-                            NULL))
+                            cria_arv(
+                            1,
+                            1,
+                            NULL,
+                            NULL)))
     );
+
+
+    int altura = obter_altura_arvore(tree);
+    printf("Altura: %d\n", altura);
+
 }
